@@ -295,6 +295,71 @@ public class CRUD_testing {
 	}
 */
 	
+	/**
+	 * Checks to make sure questions are properly created.
+	 * @param questionClass
+	 * @param question
+	 * @param user
+	 * @return
+	 */
+	public static boolean performCreateQuesTesting(Questions questionClass, Question question, User user) {
+		// Create a question
+		questionClass.addQuestion(question);
+		
+		// Test if the question is in the database
+		ArrayList<Question> retrieve = databaseHelper.getQuestions();
+		for (int i = 0; i < retrieve.size(); i++) {
+			if (retrieve.get(i).getId() == question.getId()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * Checks to make sure that answers are properly created.
+	 * @param answer
+	 * @param question
+	 * @param user
+	 * @return
+	 */
+	public static boolean performCreateAnsTesting(Answer answer, Question question, User user) {
+		// Create a question
+		Answers answerClass = new Answers(databaseHelper, question);
+		answerClass.addAnswer(answer);
+		
+		// Test if the question is in the database
+		ArrayList<Answer> retrieve = databaseHelper.getAnswers(question);
+		for (int i = 0; i < retrieve.size(); i++) {
+			if (retrieve.get(i).getAnswerId() == answer.getAnswerId()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * checks to make sure there is only one best answer
+	 * @param bestNum number of best answers
+	 * @return
+	 */
+	public static boolean performUniqueBestAnswer(int bestNum) {
+		if (bestNum == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Creates a question with multiple answers. One of these answers will be marked. 
+	 * Checks to make sure a best answer is marked, and that unmarked answers are left unmarked
+	 * @param answer1
+	 * @param answer2
+	 * @param question
+	 * @param user
+	 */
 	public static void performMarkBestAnswerTesting(Answer answer1, Answer answer2, Question question, User user) {
 		// create a question, add 2 answers
 		Answers answerClass = new Answers(databaseHelper, question);
@@ -362,5 +427,6 @@ public class CRUD_testing {
 	}
 
 
+	
 
 }
